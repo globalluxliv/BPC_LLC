@@ -1,4 +1,5 @@
 import React from 'react'
+import MikeImage from '../photos/Mike.png';
 
 export default function Agents() {
   return (
@@ -14,7 +15,7 @@ export default function Agents() {
     {/* first person */}
     <div class="flex flex-col md:flex-row gap-6">
       <div class="w-full lg:w-1/4 rounded-3xl overflow-hidden">
-        <img src="https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Hanna Lubin" class="w-full h-full object-cover aspect-video lg:aspect-square"/>
+              <img src={MikeImage} alt="https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover aspect-video lg:aspect-square"/>
       </div>
       <div class="w-full lg:w-9/12 bg-blue-100 rounded-3xl flex flex-col justify-center p-8 lg:p-14">
         <h3 class="text-2xl capitalize text-indigo-900 font-semibold">Akm Mike Bhuiyan</h3>
