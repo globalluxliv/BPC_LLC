@@ -28,7 +28,7 @@ export default function Agents() {
 
               </p>
               <br/>
-              <p>Phone: 212.884.2211 s</p>
+              <p>Phone: 212.884.2211</p>
               <email> Email: mbhuiyan@bpcresidential.com</email>
             </div>
           
