@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
+import Footer from '../components/Footer';
 export default function Search() {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
@@ -248,6 +249,7 @@ export default function Search() {
           )}
         </div>
       </div>
+    
     </div>
   );
 }

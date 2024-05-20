@@ -1,6 +1,7 @@
 import React from 'react'
 import MikeImage from '../photos/Mike.png';
 import { FaPhone } from "react-icons/fa6";
+import Footer from '../components/Footer';
 
 
 export default function Agents() {
@@ -72,7 +73,8 @@ export default function Agents() {
             
     </div> */}
   </div>
-</section>
+      </section>
+      <Footer/> 
     </div>
   )
 }
