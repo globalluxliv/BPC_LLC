@@ -68,9 +68,7 @@ export default function Header() {
                 alt="profile"
               />
             ) : (
-              <li className="hidden sm:inline text-slate-700 hover:underline">
-                hello
-              </li>
+              <li className="hidden sm:inline text-slate-700 hover:underline"></li>
             )}
           </Link>
         </ul>
