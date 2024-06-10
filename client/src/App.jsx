@@ -12,6 +12,7 @@ import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Search from "./pages/Search";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="*" element={<NotFound />} />
         {/* <Route path="/sign-up" element={<SignUp />} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
