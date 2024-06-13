@@ -24,6 +24,7 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  // const [map, setMap] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
@@ -41,6 +42,7 @@ export default function Listing() {
         setListing(data);
         setLoading(false);
         setError(false);
+        // setMap(false);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -134,6 +136,20 @@ export default function Listing() {
                 {listing.furnished ? 'Furnished' : 'Unfurnished'}
               </li>
             </ul>
+            {listing.mapUrl !== "" && (
+            <div className="flex justify-center items-center">
+            <iframe
+    src={listing.mapUrl}
+    className="w-full max-w-4xl"
+    height="300"
+    style={{ border: 0 }}
+    allowFullScreen=""
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  />
+  </div>
+            )}
+
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
