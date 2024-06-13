@@ -13,7 +13,7 @@ export default function Footer() {
                 alt="FlowBite Logo"
               /> */}
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Global Luxury Livings LLC
+                Global Luxury Livings
               </span>
             </a>
           </div>
