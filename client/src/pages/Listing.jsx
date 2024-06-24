@@ -14,6 +14,8 @@ import {
   FaMapMarkerAlt,
   FaParking,
   FaShare,
+  FaPaw,
+  FaDumbbell,
 } from "react-icons/fa";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
@@ -136,23 +138,31 @@ export default function Listing() {
                 <FaChair className="text-lg" />
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaPaw className="text-lg" />
+                {listing.pet ? "Pets" : "No Pets"}
+              </li>
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaDumbbell className="text-lg" />
+                {listing.gym ? "Gym" : "No Gym"}
+              </li>
             </ul>
             {/* card */}
-            <div class="flex justify-center items-center h-full py-12 bg-gray-100">
+            <div className="flex justify-center items-center h-full py-12 bg-gray-100">
               <a
                 href="#"
-                class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
                 <img
-                  class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                  className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                   src={Mike}
                   alt=""
                 />
-                <div class="flex flex-col justify-between p-4 leading-normal">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <div className="flex flex-col justify-between p-4 leading-normal">
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Akm Mike Bhuiyan
                   </h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     Email: info@gllivings.com
                     <br />
                     Phone:212-884-2211

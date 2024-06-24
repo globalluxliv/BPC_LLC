@@ -58,6 +58,14 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    pet: {
+      type: Boolean,
+      required: true,
+    },
+    gym: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true }
 );
