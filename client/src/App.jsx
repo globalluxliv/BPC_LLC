@@ -13,6 +13,7 @@ import Listing from "./pages/Listing";
 import Search from "./pages/Search";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
+import Review from "./pages/Review";
 
 export default function App() {
   return (
@@ -20,6 +21,8 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/reviews" element={<Review />} />
+
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/sign-up" element={<SignUp />} /> */}
