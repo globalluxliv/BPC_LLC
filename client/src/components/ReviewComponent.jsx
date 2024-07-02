@@ -1,22 +1,22 @@
-const ReviewComponent = () => {
+export default function Review({ review }){
   return (
     <div className="flex flex-col gap-2 max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md shadow-md hover:scale-105 hover:duration-150 duration-150">
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row justify-between w-full">
           {/* User's name */}
-          <p className="text-xs">John Doe</p>
+          <p className="text-xs">{review.name}</p>
           {/* Date of the review */}
-          <p className="text-xs">June 1, 2000</p>
+          <p className="text-xs">{review.date}</p>
         </div>
       </div>
       <div className="flex flex-row justify-between w-full">
-        <h3 className="text-xl font-bold">Great Experience!</h3>
+        <h3 className="text-xl font-bold">{review.title}</h3>
         {/* Static 4-star rating */}
         <div className="text-xs">
           <div className="flex flex-row">
             {/* Star SVGs */}
             {/* Repeat the filled star SVG four times */}
-            {[...Array(5)].map((_, index) => (
+            {[...Array(review.review)].map((_, index) => (
               <svg
                 key={index}
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,11 +41,8 @@ const ReviewComponent = () => {
       </div>
       {/* Review content */}
       <div className="text-sm">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
-        odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+        {review.description}
       </div>
     </div>
   );
 };
-
-export default ReviewComponent;
