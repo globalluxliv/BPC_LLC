@@ -7,11 +7,12 @@ import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 import Footer from "../components/Footer";
 
+import ReviewComponent from "../components/ReviewComponent";
+
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
-  
 
   SwiperCore.use([Navigation]);
   console.log(offerListings);
@@ -48,6 +49,22 @@ export default function Home() {
     };
     fetchOfferListings();
   }, []);
+
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch("/api/review/get");
+        const data = await res.json();
+        setReviews(data);
+      } catch (error) {
+        log(error);
+      }
+    };
+    fetchReviews();
+  }, []);
+
   return (
     <div>
       {/* top */}
@@ -152,6 +169,16 @@ export default function Home() {
             </div>
           </div>
         )}
+      </div>
+      <div>
+        <div className="flex flex-col justify-center dark:text-white items-center">
+          <h1 className="font-bold text-3xl mt-8 text-black">Review</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+            {reviews.map((r) => (
+              <ReviewComponent review={r} key={r._id} />
+            ))}
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

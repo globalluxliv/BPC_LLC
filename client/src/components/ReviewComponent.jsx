@@ -1,4 +1,4 @@
-export default function Review({ review }){
+export default function Review({ review }) {
   return (
     <div className="flex flex-col gap-2 max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md shadow-md hover:scale-105 hover:duration-150 duration-150">
       <div className="flex flex-row justify-between w-full">
@@ -40,9 +40,7 @@ export default function Review({ review }){
         </div>
       </div>
       {/* Review content */}
-      <div className="text-sm">
-        {review.description}
-      </div>
+      <div className="text-sm">{review.description}</div>
     </div>
   );
-};
+}

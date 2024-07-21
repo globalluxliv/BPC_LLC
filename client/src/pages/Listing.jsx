@@ -91,6 +91,14 @@ export default function Listing() {
               Link copied!
             </p>
           )}
+          <div className="flex justify-center mt-8">
+            <iframe
+              src="https://www.youtube.com/embed/UBOj6rqRUME"
+              frameBorder="0"
+              allowFullScreen
+              className="w-full md:w-1/2 lg:w-1/3 h-40 md:h-56 lg:h-64"
+            ></iframe>
+          </div>
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
               {listing.name} - ${" "}
