@@ -61,14 +61,24 @@ export default function Listing() {
       )}
       {listing && !loading && !error && (
         <div>
-          <Swiper navigation>
+          <Swiper
+            navigation
+            style={{
+              width: "100%",
+              maxWidth: "800px",
+              height: "auto",
+              margin: "0 auto",
+            }} // Adjust width and height as needed
+          >
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div
-                  className="h-[550px]"
                   style={{
+                    height: "400px", // Adjust height as needed
                     background: `url(${url}) center no-repeat`,
                     backgroundSize: "cover",
+                    borderRadius: "10px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   }}
                 ></div>
               </SwiperSlide>
