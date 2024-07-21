@@ -65,7 +65,7 @@ export default function Listing() {
             navigation
             style={{
               width: "100%",
-              maxWidth: "800px",
+              maxWidth: "900px",
               height: "auto",
               margin: "0 auto",
             }} // Adjust width and height as needed
@@ -77,7 +77,7 @@ export default function Listing() {
                     height: "400px", // Adjust height as needed
                     background: `url(${url}) center no-repeat`,
                     backgroundSize: "cover",
-                    borderRadius: "10px",
+                    borderRadius: "5px",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   }}
                 ></div>
