@@ -17,6 +17,7 @@ import {
   FaPaw,
   FaDumbbell,
 } from "react-icons/fa";
+import { IoResizeSharp } from "react-icons/io5";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
@@ -136,6 +137,12 @@ export default function Listing() {
               {listing.description}
             </p>
             <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
+              {listing.sqft > 0 && (
+                <li className="flex items-center gap-1 whitespace-nowrap ">
+                  <IoResizeSharp className="text-lg" />
+                  {`${listing.sqft} sqft`}
+                </li>
+              )}
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaBed className="text-lg" />
                 {listing.bedrooms > 1
@@ -148,6 +155,7 @@ export default function Listing() {
                   ? `${listing.bathrooms} baths `
                   : `${listing.bathrooms} bath `}
               </li>
+
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaParking className="text-lg" />
                 {listing.parking ? "Parking spot" : "No Parking"}

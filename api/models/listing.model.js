@@ -30,6 +30,10 @@ const listingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    sqft: {
+      type: Number,
+      required: false,
+    },
     furnished: {
       type: Boolean,
       required: true,

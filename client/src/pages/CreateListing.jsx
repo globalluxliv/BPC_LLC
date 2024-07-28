@@ -22,6 +22,7 @@ export default function CreateListing() {
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
+    sqft: 0,
     regularPrice: 50,
     discountPrice: 0,
     offer: false,
@@ -270,6 +271,16 @@ export default function CreateListing() {
               />
               <span>Gym</span>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              id="sqft"
+              className="p-3 border border-gray-300 rounded-lg"
+              onChange={handleChange}
+              value={formData.sqft}
+            />
+            <p>SQFT</p>
           </div>
           <div className="flex flex-wrap gap-6">
             <div className="flex items-center gap-2">
