@@ -18,6 +18,10 @@ const listingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+     cc_tax: {
+      type: Number,
+      required: false,
+    },
     discountPrice: {
       type: Number,
       required: true,

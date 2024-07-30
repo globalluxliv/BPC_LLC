@@ -30,6 +30,7 @@ export default function CreateListing() {
     furnished: false,
     pet: false,
     gym: false,
+    cc_tax: 0,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -348,7 +349,18 @@ export default function CreateListing() {
               </div>
             )}
           </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              id="cc_tax"
+              className="p-3 border border-gray-300 rounded-lg"
+              onChange={handleChange}
+              value={formData.cc_tax}
+            />
+            <p>CC+TAX</p>
+          </div>
         </div>
+
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold">
             Images:

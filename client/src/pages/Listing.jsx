@@ -104,7 +104,7 @@ export default function Listing() {
           )}
           <div className="flex justify-center mt-8">
             <iframe
-              src="https://www.youtube.com/embed/UBOj6rqRUME"
+              src=""
               frameBorder="0"
               allowFullScreen
               className="w-full md:w-1/2 lg:w-1/3 h-40 md:h-56 lg:h-64"
@@ -118,6 +118,12 @@ export default function Listing() {
                 : listing.regularPrice.toLocaleString("en-US")}
               {listing.type === "rent" && " / month"}
             </p>
+            <p className="text-2xl font-semibold">
+              {listing.type !== "rent" && listing.cc_tax !== null
+                ? `CC+TAX $${listing.cc_tax}`
+                : ""}
+            </p>
+
             <p className="flex items-center mt-6 gap-2 text-slate-600  text-sm">
               <FaMapMarkerAlt className="text-green-700" />
               {listing.address}
@@ -132,6 +138,7 @@ export default function Listing() {
                 </p>
               )}
             </div>
+
             <p className="text-slate-800">
               <span className="font-semibold text-black">Description - </span>
               {listing.description}
