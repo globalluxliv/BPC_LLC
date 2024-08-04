@@ -206,7 +206,7 @@ export default function CreateListing() {
           />
           <input
             type="text"
-            placeholder="Map URL"
+            placeholder="Youtube URL"
             className="border p-3 rounded-lg"
             id="youtubeUrl"
             onChange={handleChange}

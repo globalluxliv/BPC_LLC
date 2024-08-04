@@ -1,6 +1,9 @@
 import Listing from '../models/listing.model.js';
 import { errorHandler } from '../utils/error.js';
 
+const ADMIN_USER_ID = '664a1c34413c39f3d7fa02d4';
+
+
 export const createListing = async (req, res, next) => {
   try {
     const listing = await Listing.create(req.body);
@@ -14,7 +17,7 @@ export const deleteListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-  if (req.user.id !== listing.userRef) {
+  if (req.user.id !== listing.userRef && req.user.id !== ADMIN_USER_ID ) {
     return next(errorHandler(401, 'You can only delete your own listings!'));
   }
   try {
@@ -30,7 +33,7 @@ export const updateListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-  if (req.user.id !== listing.userRef) {
+  if (req.user.id !== listing.userRef && req.user.id !== ADMIN_USER_ID) {
     return next(errorHandler(401, 'You can only update your own listings!'));
   }
 

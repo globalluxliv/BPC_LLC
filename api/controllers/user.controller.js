@@ -3,6 +3,8 @@ import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
 import Listing from '../models/listing.model.js';
 
+const ADMIN_USER_ID = '664a1c34413c39f3d7fa02d4';
+
 export const test = (req, res) => {
   res.json({
     message: 'Api route is working!',
@@ -46,15 +48,17 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListings = async (req, res, next) => {
-  if (req.user.id === req.params.id) {
-    try {
-      const listings = await Listing.find({ userRef: req.params.id });
+  try {
+    // Check if the user is the owner of the listings or if the user is an admin
+    if (req.user.id === req.params.id || req.user.id === ADMIN_USER_ID) {
+      const filter = req.user.id === ADMIN_USER_ID ? {} : { userRef: req.params.id };
+      const listings = await Listing.find(filter);
       res.status(200).json(listings);
-    } catch (error) {
-      next(error);
+    } else {
+      return next(errorHandler(401, 'You can only view your own listings!'));
     }
-  } else {
-    return next(errorHandler(401, 'You can only view your own listings!'));
+  } catch (error) {
+    next(error);
   }
 };
 
