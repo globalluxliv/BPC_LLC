@@ -4,6 +4,8 @@ import { errorHandler } from '../utils/error.js';
 import Listing from '../models/listing.model.js';
 
 const ADMIN_USER_ID = '664a1c34413c39f3d7fa02d4';
+const ADMIN_USER_ID2 = '66a6ac6b52f384512b70c176';
+
 
 export const test = (req, res) => {
   res.json({
@@ -50,8 +52,8 @@ export const deleteUser = async (req, res, next) => {
 export const getUserListings = async (req, res, next) => {
   try {
     // Check if the user is the owner of the listings or if the user is an admin
-    if (req.user.id === req.params.id || req.user.id === ADMIN_USER_ID) {
-      const filter = req.user.id === ADMIN_USER_ID ? {} : { userRef: req.params.id };
+    if (req.user.id === req.params.id || req.user.id === ADMIN_USER_ID || req.user.id === ADMIN_USER_ID2) {
+      const filter = req.user.id === ADMIN_USER_ID || req.user.id === ADMIN_USER_ID2 ? {} : { userRef: req.params.id };
       const listings = await Listing.find(filter);
       res.status(200).json(listings);
     } else {
