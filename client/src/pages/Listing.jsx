@@ -16,6 +16,7 @@ import {
   FaShare,
   FaPaw,
   FaDumbbell,
+  FaDoorOpen,
 } from "react-icons/fa";
 import { IoResizeSharp } from "react-icons/io5";
 import Contact from "../components/Contact";
@@ -54,6 +55,7 @@ export default function Listing() {
     };
     fetchListing();
   }, [params.listingId]);
+
   return (
     <main>
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
@@ -102,14 +104,16 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          <div className="flex justify-center mt-8">
-            <iframe
-              src=""
-              frameBorder="0"
-              allowFullScreen
-              className="w-full md:w-1/2 lg:w-1/3 h-40 md:h-56 lg:h-64"
-            ></iframe>
-          </div>
+          {listing.src && (
+            <div className="flex justify-center mt-8">
+              <iframe
+                src={listing.src}
+                frameBorder="0"
+                allowFullScreen
+                className="w-full md:w-1/2 lg:w-1/3 h-40 md:h-56 lg:h-64"
+              ></iframe>
+            </div>
+          )}
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
               {listing.name} - ${" "}
@@ -178,6 +182,10 @@ export default function Listing() {
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaDumbbell className="text-lg" />
                 {listing.gym ? "Gym" : "No Gym"}
+              </li>
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaDoorOpen className="text-lg" />
+                {listing.doorMan ? "Door Man" : "No Door Man"}
               </li>
             </ul>
             {/* card */}

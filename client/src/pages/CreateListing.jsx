@@ -30,6 +30,7 @@ export default function CreateListing() {
     furnished: false,
     pet: false,
     gym: false,
+    doorMan: false,
     cc_tax: 0,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
@@ -107,7 +108,8 @@ export default function CreateListing() {
       e.target.id === "furnished" ||
       e.target.id === "offer" ||
       e.target.id === "pet" ||
-      e.target.id === "gym"
+      e.target.id === "gym" ||
+      e.target.id == "doorMan"
     ) {
       setFormData({
         ...formData,
@@ -271,6 +273,16 @@ export default function CreateListing() {
                 checked={formData.gym}
               />
               <span>Gym</span>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="doorMan"
+                className="w-5"
+                onChange={handleChange}
+                checked={formData.doorMan}
+              />
+              <span>Door Man</span>
             </div>
           </div>
           <div className="flex items-center gap-2">

@@ -74,6 +74,10 @@ const listingSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    doorMan: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true }
 );
