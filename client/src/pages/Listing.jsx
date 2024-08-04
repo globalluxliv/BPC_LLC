@@ -136,6 +136,27 @@ export default function Listing() {
               <p className="bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
                 {listing.type === "rent" ? "For Rent" : "For Sale"}
               </p>
+              {listing.sold && (
+                <p className="bg-green-900 w-full max-w-[100px] text-white text-center p-1 rounded-md">
+                  Sold
+                </p>
+              )}
+              {listing.rented && (
+                <p className="bg-green-900 w-full max-w-[100px] text-white text-center p-1 rounded-md">
+                  Rented
+                </p>
+              )}
+              {listing.tempOff && (
+                <p className="bg-red-500 w-full max-w-[150px] text-white text-center p-1 rounded-md">
+                  Temporary Off
+                </p>
+              )}
+              {listing.underContract && (
+                <p className="bg-red-500 w-full max-w-[150px] text-white text-center p-1 rounded-md">
+                  Under Contract
+                </p>
+              )}
+
               {listing.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
                   ${+listing.regularPrice - +listing.discountPrice} OFF

@@ -33,6 +33,7 @@ export default function CreateListing() {
     pet: false,
     gym: false,
     doorMan: false,
+    cc_tax: 0,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -128,7 +129,11 @@ export default function CreateListing() {
       e.target.id === "offer" ||
       e.target.id === "pet" ||
       e.target.id === "gym" ||
-      e.target.id === "doorMan"
+      e.target.id === "doorMan" ||
+      e.target.id === "rented" ||
+      e.target.id === "sold" ||
+      e.target.id === "tempOff" ||
+      e.target.id === "underContract"
     ) {
       setFormData({
         ...formData,
@@ -310,6 +315,46 @@ export default function CreateListing() {
                 checked={formData.doorMan}
               />
               <span>Door Man</span>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="sold"
+                className="w-5"
+                onChange={handleChange}
+                checked={formData.sold}
+              />
+              <span>Sold</span>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="rented"
+                className="w-5"
+                onChange={handleChange}
+                checked={formData.rented}
+              />
+              <span>Rented</span>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="underContract"
+                className="w-5"
+                onChange={handleChange}
+                checked={formData.underContract}
+              />
+              <span>Under Contract</span>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="tempOff"
+                className="w-5"
+                onChange={handleChange}
+                checked={formData.tempOff}
+              />
+              <span>Temporary Off</span>
             </div>
           </div>
           <div className="flex items-center gap-2">

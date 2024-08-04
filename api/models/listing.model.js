@@ -82,6 +82,22 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    sold: {
+      type: Boolean,
+      required: false,
+    },
+    rented: {
+      type: Boolean,
+      required: false,
+    },
+    underContract: {
+      type: Boolean,
+      required: false,
+    },
+    tempOff: {
+      type: Boolean,
+      required: false,
+    },
   },
   { timestamps: true }
 );
