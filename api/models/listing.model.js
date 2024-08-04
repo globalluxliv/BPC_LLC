@@ -78,6 +78,10 @@ const listingSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    youtubeUrl: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );

@@ -19,6 +19,7 @@ export default function CreateListing() {
     description: "",
     address: "",
     mapUrl: "",
+    youtubeUrl: "",
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
@@ -202,6 +203,14 @@ export default function CreateListing() {
             id="mapUrl"
             onChange={handleChange}
             value={formData.mapUrl}
+          />
+          <input
+            type="text"
+            placeholder="Map URL"
+            className="border p-3 rounded-lg"
+            id="youtubeUrl"
+            onChange={handleChange}
+            value={formData.youtubeUrl}
           />
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">

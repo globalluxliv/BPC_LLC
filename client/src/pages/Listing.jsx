@@ -104,10 +104,10 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          {listing.src && (
+          {listing.youtubeUrl && (
             <div className="flex justify-center mt-8">
               <iframe
-                src={listing.src}
+                src={listing.youtubeUrl}
                 frameBorder="0"
                 allowFullScreen
                 className="w-full md:w-1/2 lg:w-1/3 h-40 md:h-56 lg:h-64"
