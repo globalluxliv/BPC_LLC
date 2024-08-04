@@ -98,6 +98,10 @@ const listingSchema = new mongoose.Schema(
       type: Boolean,
       required: false,
     },
+    date:{
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );

@@ -37,6 +37,7 @@ export default function CreateListing() {
     underContract: false,
     tempOff: false,
     cc_tax: 0,
+    date: "",
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -341,6 +342,16 @@ export default function CreateListing() {
               />
               <span>Temporary Off</span>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="string"
+              id="date"
+              className="p-3 border border-gray-300 rounded-lg"
+              onChange={handleChange}
+              value={formData.date}
+            />
+            <p>Date</p>
           </div>
           <div className="flex items-center gap-2">
             <input

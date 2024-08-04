@@ -359,6 +359,16 @@ export default function CreateListing() {
           </div>
           <div className="flex items-center gap-2">
             <input
+              type="string"
+              id="date"
+              className="p-3 border border-gray-300 rounded-lg"
+              onChange={handleChange}
+              value={formData.date}
+            />
+            <p>Date</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
               type="number"
               id="sqft"
               className="p-3 border border-gray-300 rounded-lg"
