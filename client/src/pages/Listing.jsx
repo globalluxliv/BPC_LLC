@@ -123,7 +123,7 @@ export default function Listing() {
               {listing.type === "rent" && " / month"}
             </p>
             <p className="text-2xl font-semibold">
-              {listing.type !== "rent" && listing.cc_tax !== null
+              {listing.type !== "rent" && listing.cc_tax
                 ? `CC+TAX $${listing.cc_tax}`
                 : ""}
             </p>
