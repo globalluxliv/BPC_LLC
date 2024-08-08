@@ -276,7 +276,7 @@ export default function CreateListing() {
               />
               <span>Furnished</span>
             </div>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <input
                 type="checkbox"
                 id="offer"
@@ -285,37 +285,42 @@ export default function CreateListing() {
                 checked={formData.offer}
               />
               <span>Offer</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="pet"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.pet}
-              />
-              <span>Pet</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="gym"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.gym}
-              />
-              <span>Gym</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="doorMan"
-                className="w-5"
-                onChange={handleChange}
-                checked={formData.doorMan}
-              />
-              <span>Door Man</span>
-            </div>
+            </div> */}
+            {/* Conditionally render the checkboxes only if type is not "commercial" */}
+            {formData.type !== "commercial" && (
+              <>
+                <div className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    id="pet"
+                    className="w-5"
+                    onChange={handleChange}
+                    checked={formData.pet}
+                  />
+                  <span>Pet</span>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    id="gym"
+                    className="w-5"
+                    onChange={handleChange}
+                    checked={formData.gym}
+                  />
+                  <span>Gym</span>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    id="doorMan"
+                    className="w-5"
+                    onChange={handleChange}
+                    checked={formData.doorMan}
+                  />
+                  <span>Door Man</span>
+                </div>
+              </>
+            )}
             <div className="flex gap-2">
               <input
                 type="checkbox"
@@ -378,32 +383,37 @@ export default function CreateListing() {
             <p>SQFT</p>
           </div>
           <div className="flex flex-wrap gap-6">
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bedrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bedrooms}
-              />
-              <p>Beds</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bathrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bathrooms}
-              />
-              <p>Baths</p>
-            </div>
+            {/* Conditionally render Bed and Bathroom fields only if type is not "commercial" */}
+            {formData.type !== "commercial" && (
+              <>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    id="bedrooms"
+                    min="1"
+                    max="10"
+                    required
+                    className="p-3 border border-gray-300 rounded-lg"
+                    onChange={handleChange}
+                    value={formData.bedrooms}
+                  />
+                  <p>Beds</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    id="bathrooms"
+                    min="1"
+                    max="10"
+                    required
+                    className="p-3 border border-gray-300 rounded-lg"
+                    onChange={handleChange}
+                    value={formData.bathrooms}
+                  />
+                  <p>Baths</p>
+                </div>
+              </>
+            )}
             <div className="flex items-center gap-2">
               <input
                 type="number"
