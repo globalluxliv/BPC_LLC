@@ -13,6 +13,7 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const [commercialListings, setCommercialListings] = useState([]);
 
   SwiperCore.use([Navigation]);
   console.log(offerListings);
@@ -43,12 +44,23 @@ export default function Home() {
         const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
         setSaleListings(data);
+        fetchCommercialListings();
       } catch (error) {
         log(error);
       }
     };
     fetchOfferListings();
   }, []);
+  const fetchCommercialListings = async () => {
+    // Fetch commercial listings
+    try {
+      const res = await fetch("/api/listing/get?type=commercial&limit=4");
+      const data = await res.json();
+      setCommercialListings(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [reviews, setReviews] = useState([]);
 
@@ -109,7 +121,7 @@ export default function Home() {
       {/* listing results for offer, sale and rent */}
 
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
-        {offerListings && offerListings.length > 0 && (
+        {/* {offerListings && offerListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
@@ -128,7 +140,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
         {rentListings && rentListings.length > 0 && (
           <div className="">
             <div className="my-3">
@@ -164,6 +176,27 @@ export default function Home() {
             </div>
             <div className="flex flex-wrap gap-4">
               {saleListings.map((listing) => (
+                <ListingItem listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+        {/* commercial */}
+        {commercialListings && commercialListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent commercial listings
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=commercial"}
+              >
+                Show more commercial listings
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {commercialListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
