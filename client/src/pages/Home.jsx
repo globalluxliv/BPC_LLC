@@ -13,7 +13,8 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
-  const [commercialListings, setCommercialListings] = useState([]);
+  const [commercialSaleListings, setCommercialSaleListings] = useState([]);
+  const [commercialLeaseListings, setCommercialLeaseListings] = useState([]);
 
   SwiperCore.use([Navigation]);
   console.log(offerListings);
@@ -44,19 +45,29 @@ export default function Home() {
         const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
         setSaleListings(data);
-        fetchCommercialListings();
+        fetchCommercialSaleListings();
       } catch (error) {
         log(error);
       }
     };
     fetchOfferListings();
   }, []);
-  const fetchCommercialListings = async () => {
-    // Fetch commercial listings
+  const fetchCommercialSaleListings = async () => {
     try {
-      const res = await fetch("/api/listing/get?type=commercial&limit=4");
+      const res = await fetch("/api/listing/get?type=commercial_sale&limit=4");
       const data = await res.json();
-      setCommercialListings(data);
+      setCommercialSaleListings(data);
+      fetchCommercialLeaseListings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchCommercialLeaseListings = async () => {
+    try {
+      const res = await fetch("/api/listing/get?type=commercial_lease&limit=4");
+      const data = await res.json();
+      setCommercialLeaseListings(data);
     } catch (error) {
       console.log(error);
     }
@@ -181,22 +192,44 @@ export default function Home() {
             </div>
           </div>
         )}
-        {/* commercial */}
-        {commercialListings && commercialListings.length > 0 && (
+        {/* Commercial Sale */}
+        {commercialSaleListings && commercialSaleListings.length > 0 && (
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent commercial listings
+                Recent commercial sales
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=commercial"}
+                to={"/search?type=commercial_sale"}
               >
-                Show more commercial listings
+                Show more commercial sales
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
-              {commercialListings.map((listing) => (
+              {commercialSaleListings.map((listing) => (
+                <ListingItem listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Commercial Lease */}
+        {commercialLeaseListings && commercialLeaseListings.length > 0 && (
+          <div className="">
+            <div className="my-3">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent commercial leases
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=commercial_lease"}
+              >
+                Show more commercial leases
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {commercialLeaseListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>

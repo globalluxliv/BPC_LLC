@@ -134,7 +134,15 @@ export default function Listing() {
             </p>
             <div className="flex gap-4">
               <p className="bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                {listing.type === "rent" ? "For Rent" : "For Sale"}
+                {listing.type === "rent"
+                  ? "For Rent"
+                  : listing.type === "sale"
+                  ? "For Sale"
+                  : listing.type === "commercial_sale"
+                  ? "Commercial Sale"
+                  : listing.type === "commercial_lease"
+                  ? "Commercial Lease"
+                  : ""}
               </p>
               {listing.sold && (
                 <p className="bg-green-900 w-full max-w-[100px] text-white text-center p-1 rounded-md">
@@ -181,22 +189,23 @@ export default function Listing() {
                 </li>
               )}
               {/* Conditionally render Bed, Bath, Pets, Gym, and Doorman icons */}
-              {listing.type !== "commercial" && (
-                <>
-                  <li className="flex items-center gap-1 whitespace-nowrap ">
-                    <FaBed className="text-lg" />
-                    {listing.bedrooms > 1
-                      ? `${listing.bedrooms} beds `
-                      : `${listing.bedrooms} bed `}
-                  </li>
-                  <li className="flex items-center gap-1 whitespace-nowrap ">
-                    <FaBath className="text-lg" />
-                    {listing.bathrooms > 1
-                      ? `${listing.bathrooms} baths `
-                      : `${listing.bathrooms} bath `}
-                  </li>
-                </>
-              )}
+              {listing.type !== "commercial_sale" &&
+                listing.type !== "commercial_lease" && (
+                  <>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaBed className="text-lg" />
+                      {listing.bedrooms > 1
+                        ? `${listing.bedrooms} beds `
+                        : `${listing.bedrooms} bed `}
+                    </li>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaBath className="text-lg" />
+                      {listing.bathrooms > 1
+                        ? `${listing.bathrooms} baths `
+                        : `${listing.bathrooms} bath `}
+                    </li>
+                  </>
+                )}
 
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaParking className="text-lg" />
@@ -207,22 +216,23 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
               {/* Conditionally render Bed, Bath, Pets, Gym, and Doorman icons */}
-              {listing.type !== "commercial" && (
-                <>
-                  <li className="flex items-center gap-1 whitespace-nowrap ">
-                    <FaPaw className="text-lg" />
-                    {listing.pet ? "Pets" : "No Pets"}
-                  </li>
-                  <li className="flex items-center gap-1 whitespace-nowrap ">
-                    <FaDumbbell className="text-lg" />
-                    {listing.gym ? "Gym" : "No Gym"}
-                  </li>
-                  <li className="flex items-center gap-1 whitespace-nowrap ">
-                    <FaDoorOpen className="text-lg" />
-                    {listing.doorMan ? "Door Man" : "No Door Man"}
-                  </li>
-                </>
-              )}
+              {listing.type !== "commercial_sale" &&
+                listing.type !== "commercial_lease" && (
+                  <>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaPaw className="text-lg" />
+                      {listing.pet ? "Pets" : "No Pets"}
+                    </li>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaDumbbell className="text-lg" />
+                      {listing.gym ? "Gym" : "No Gym"}
+                    </li>
+                    <li className="flex items-center gap-1 whitespace-nowrap ">
+                      <FaDoorOpen className="text-lg" />
+                      {listing.doorMan ? "Door Man" : "No Door Man"}
+                    </li>
+                  </>
+                )}
             </ul>
             {/* card */}
             <div className="flex justify-center items-center h-full py-12 bg-gray-100">
