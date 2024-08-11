@@ -6,7 +6,6 @@ import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 import Footer from "../components/Footer";
-
 import ReviewComponent from "../components/ReviewComponent";
 
 export default function Home() {
@@ -17,23 +16,24 @@ export default function Home() {
   const [commercialLeaseListings, setCommercialLeaseListings] = useState([]);
 
   SwiperCore.use([Navigation]);
-  console.log(offerListings);
+
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
         const res = await fetch("/api/listing/get?offer=true&limit=4");
         const data = await res.json();
-        setOfferListings(data);
+        setOfferListings(data.filter(filterListings));
         fetchRentListings();
       } catch (error) {
         console.log(error);
       }
     };
+
     const fetchRentListings = async () => {
       try {
         const res = await fetch("/api/listing/get?type=rent&limit=4");
         const data = await res.json();
-        setRentListings(data);
+        setRentListings(data.filter(filterListings));
         fetchSaleListings();
       } catch (error) {
         console.log(error);
@@ -44,33 +44,43 @@ export default function Home() {
       try {
         const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
-        setSaleListings(data);
+        setSaleListings(data.filter(filterListings));
         fetchCommercialSaleListings();
       } catch (error) {
-        log(error);
+        console.log(error);
       }
     };
+
+    const fetchCommercialSaleListings = async () => {
+      try {
+        const res = await fetch(
+          "/api/listing/get?type=commercial_sale&limit=4"
+        );
+        const data = await res.json();
+        setCommercialSaleListings(data.filter(filterListings));
+        fetchCommercialLeaseListings();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchCommercialLeaseListings = async () => {
+      try {
+        const res = await fetch(
+          "/api/listing/get?type=commercial_lease&limit=4"
+        );
+        const data = await res.json();
+        setCommercialLeaseListings(data.filter(filterListings));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchOfferListings();
   }, []);
-  const fetchCommercialSaleListings = async () => {
-    try {
-      const res = await fetch("/api/listing/get?type=commercial_sale&limit=4");
-      const data = await res.json();
-      setCommercialSaleListings(data);
-      fetchCommercialLeaseListings();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const fetchCommercialLeaseListings = async () => {
-    try {
-      const res = await fetch("/api/listing/get?type=commercial_lease&limit=4");
-      const data = await res.json();
-      setCommercialLeaseListings(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const filterListings = (listing) => {
+    return !listing.tempOff && !listing.sold && !listing.rented;
   };
 
   const [reviews, setReviews] = useState([]);
@@ -82,7 +92,7 @@ export default function Home() {
         const data = await res.json();
         setReviews(data);
       } catch (error) {
-        log(error);
+        console.log(error);
       }
     };
     fetchReviews();
@@ -116,14 +126,13 @@ export default function Home() {
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
                 className="h-[500px]"
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
@@ -132,26 +141,6 @@ export default function Home() {
       {/* listing results for offer, sale and rent */}
 
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
-        {/* {offerListings && offerListings.length > 0 && (
-          <div className="">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">
-                Recent offers
-              </h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
-              >
-                Show more offers
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {offerListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )} */}
         {rentListings && rentListings.length > 0 && (
           <div className="">
             <div className="my-3">

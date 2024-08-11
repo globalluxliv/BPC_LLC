@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Agents from "./pages/Agents";
 import Header from "./components/Header";
+import AgentListings from "./pages/AgentListings";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
@@ -35,6 +36,7 @@ export default function App() {
           />
         </Route>
         <Route path="/agents" element={<Agents />} />
+        <Route path="/agent/:id" element={<AgentListings />} />
       </Routes>
       {/* <Footer/> */}
     </BrowserRouter>
