@@ -21,8 +21,8 @@ export default function CreateListing() {
     mapUrl: "",
     youtubeUrl: "",
     type: "rent",
-    bedrooms: 1,
-    bathrooms: 1,
+    bedrooms: 0,
+    bathrooms: 0,
     sqft: 0,
     regularPrice: 50,
     discountPrice: 0,
@@ -428,7 +428,7 @@ export default function CreateListing() {
                     <input
                       type="number"
                       id="bedrooms"
-                      min="1"
+                      min="0"
                       max="10"
                       required
                       className="p-3 border border-gray-300 rounded-lg"
@@ -441,7 +441,7 @@ export default function CreateListing() {
                     <input
                       type="number"
                       id="bathrooms"
-                      min="1"
+                      min="0"
                       max="10"
                       required
                       className="p-3 border border-gray-300 rounded-lg"
