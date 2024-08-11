@@ -82,10 +82,12 @@ export const getListings = async (req, res, next) => {
     if (offer) {
       query.offer = offer === 'true';
     }
-    if (parking) {
+
+    // Only add parking and furnished filters if they are explicitly set
+    if (typeof parking !== 'undefined') {
       query.parking = parking === 'true';
     }
-    if (furnished) {
+    if (typeof furnished !== 'undefined') {
       query.furnished = furnished === 'true';
     }
 

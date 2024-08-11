@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
-import Footer from "../components/Footer";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -11,8 +10,7 @@ export default function Search() {
     parking: false,
     furnished: false,
     offer: false,
-    sort: "created_at",
-    order: "desc",
+    sort: "regularPrice_desc", // default to Price high to low
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,108 +18,88 @@ export default function Search() {
   const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    const typeFromUrl = urlParams.get("type");
-    const parkingFromUrl = urlParams.get("parking");
-    const furnishedFromUrl = urlParams.get("furnished");
-    const offerFromUrl = urlParams.get("offer");
-    const sortFromUrl = urlParams.get("sort");
-    const orderFromUrl = urlParams.get("order");
-    if (
-      searchTermFromUrl ||
-      typeFromUrl ||
-      parkingFromUrl ||
-      furnishedFromUrl ||
-      offerFromUrl ||
-      sortFromUrl ||
-      orderFromUrl
-    ) {
-      setSidebardata({
-        searchTerm: searchTermFromUrl || "",
-        type: typeFromUrl || "all",
-        parking: parkingFromUrl === "true" ? true : false,
-        furnished: furnishedFromUrl === "true" ? true : false,
-        offer: offerFromUrl === "true" ? true : false,
-        sort: sortFromUrl || "created_at",
-        order: orderFromUrl || "desc",
-      });
-    }
-
     const fetchListings = async () => {
       setLoading(true);
       setShowMore(false);
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Fetch listings based on current URL parameters
       const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
-      const data = await res.json();
-      if (data.length > 8) {
-        setShowMore(true);
-      } else {
-        setShowMore(false);
+      console.log("Search Query:", searchQuery);
+
+      try {
+        const res = await fetch(`/api/listing/get?${searchQuery}`);
+        const data = await res.json();
+
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+        setListings(data);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      } finally {
+        setLoading(false);
       }
-      setListings(data);
-      setLoading(false);
     };
+
     fetchListings();
-  }, [location.search]);
+  }, [window.location.search]);
 
   const handleChange = (e) => {
-    if (
-      e.target.id === "all" ||
-      e.target.id === "rent" ||
-      e.target.id === "sale" ||
-      e.target.id === "commercial_sale" ||
-      e.target.id === "commercial_lease"
-    ) {
-      setSidebardata({ ...sidebardata, type: e.target.id });
-    }
-    if (e.target.id === "searchTerm") {
-      setSidebardata({ ...sidebardata, searchTerm: e.target.value });
-    }
-    if (
-      e.target.id === "parking" ||
-      e.target.id === "furnished" ||
-      e.target.id === "offer"
-    ) {
-      setSidebardata({
-        ...sidebardata,
-        [e.target.id]:
-          e.target.checked || e.target.checked === "true" ? true : false,
-      });
-    }
-    if (e.target.id === "sort_order") {
-      const sort = e.target.value.split("_")[0] || "created_at";
-      const order = e.target.value.split("_")[1] || "desc";
-      setSidebardata({ ...sidebardata, sort, order });
-    }
+    const { name, value, type, checked } = e.target;
+    setSidebardata((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const urlParams = new URLSearchParams();
-    urlParams.set("searchTerm", sidebardata.searchTerm);
-    urlParams.set("type", sidebardata.type);
-    urlParams.set("parking", sidebardata.parking);
-    urlParams.set("furnished", sidebardata.furnished);
-    urlParams.set("offer", sidebardata.offer);
-    urlParams.set("sort", sidebardata.sort);
-    urlParams.set("order", sidebardata.order);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
+
+    const [sort, order] = sidebardata.sort.split("_"); // Split sort and order from dropdown
+    const urlParams = new URLSearchParams({
+      searchTerm: sidebardata.searchTerm,
+      type: sidebardata.type,
+      sort,
+      order,
+    });
+
+    if (sidebardata.offer) {
+      urlParams.set("offer", sidebardata.offer);
+    }
+
+    if (sidebardata.parking) {
+      urlParams.set("parking", sidebardata.parking);
+    }
+
+    if (sidebardata.furnished) {
+      urlParams.set("furnished", sidebardata.furnished);
+    }
+
+    navigate(`/search?${urlParams.toString()}`);
   };
 
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
-    const urlParams = new URLSearchParams(location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/listing/get?${searchQuery}`);
-    const data = await res.json();
-    if (data.length < 9) {
-      setShowMore(false);
+
+    try {
+      const res = await fetch(`/api/listing/get?${searchQuery}`);
+      const data = await res.json();
+
+      if (data.length < 9) {
+        setShowMore(false);
+      }
+      setListings([...listings, ...data]);
+    } catch (error) {
+      console.error("Error fetching more listings:", error);
     }
-    setListings([...listings, ...data]);
   };
 
   return (
@@ -134,7 +112,7 @@ export default function Search() {
             </label>
             <input
               type="text"
-              id="searchTerm"
+              name="searchTerm"
               placeholder="Search..."
               className="border rounded-lg p-3 w-full"
               value={sidebardata.searchTerm}
@@ -146,8 +124,8 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="radio"
-                id="all"
                 name="type"
+                value="all"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "all"}
@@ -157,8 +135,8 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="radio"
-                id="rent"
                 name="type"
+                value="rent"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "rent"}
@@ -168,8 +146,8 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="radio"
-                id="sale"
                 name="type"
+                value="sale"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "sale"}
@@ -179,8 +157,8 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="radio"
-                id="commercial_sale"
                 name="type"
+                value="commercial_sale"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "commercial_sale"}
@@ -190,31 +168,21 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="radio"
-                id="commercial_lease"
                 name="type"
+                value="commercial_lease"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.type === "commercial_lease"}
               />
               <span>Commercial Lease</span>
             </div>
-            {/* <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleChange}
-                checked={sidebardata.offer}
-              />
-              <span>Offer</span>
-            </div> */}
           </div>
           <div className="flex gap-2 flex-wrap items-center">
             <label className="font-semibold">Amenities:</label>
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="parking"
+                name="parking"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.parking}
@@ -224,7 +192,7 @@ export default function Search() {
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="furnished"
+                name="furnished"
                 className="w-5"
                 onChange={handleChange}
                 checked={sidebardata.furnished}
@@ -236,12 +204,12 @@ export default function Search() {
             <label className="font-semibold">Sort:</label>
             <select
               onChange={handleChange}
-              defaultValue={"created_at_desc"}
-              id="sort_order"
+              name="sort"
+              value={sidebardata.sort}
               className="border rounded-lg p-3"
             >
               <option value="regularPrice_desc">Price high to low</option>
-              <option value="regularPrice_asc">Price low to hight</option>
+              <option value="regularPrice_asc">Price low to high</option>
               <option value="createdAt_desc">Latest</option>
               <option value="createdAt_asc">Oldest</option>
             </select>
@@ -269,7 +237,6 @@ export default function Search() {
             listings.map((listing) => (
               <ListingItem key={listing._id} listing={listing} />
             ))}
-
           {showMore && (
             <button
               onClick={onShowMoreClick}
