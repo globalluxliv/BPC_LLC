@@ -87,16 +87,32 @@ export default function Search() {
     const startIndex = numberOfListings;
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("startIndex", startIndex);
+
+    // Clear the type parameter if it's "all" to prevent overlap in the "Show More" results
+    if (sidebardata.type === "all") {
+      urlParams.delete("type");
+    }
+
     const searchQuery = urlParams.toString();
 
     try {
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
 
-      if (data.length < 9) {
+      // Filter out any listings that are already in the state to prevent duplicates
+      const newListings = data.filter(
+        (newListing) =>
+          !listings.some(
+            (existingListing) => existingListing._id === newListing._id
+          )
+      );
+
+      if (newListings.length < 9) {
         setShowMore(false);
       }
-      setListings([...listings, ...data]);
+
+      // Append the filtered new listings to the current state
+      setListings([...listings, ...newListings]);
     } catch (error) {
       console.error("Error fetching more listings:", error);
     }
