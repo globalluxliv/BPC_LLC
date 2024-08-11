@@ -34,6 +34,11 @@ export default function CreateListing() {
     gym: false,
     doorMan: false,
     cc_tax: 0,
+    sold: false, // Ensure these boolean fields are also initialized
+    rented: false,
+    underContract: false,
+    tempOff: false,
+    date: "", // Initialize date as empty string
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -50,6 +55,11 @@ export default function CreateListing() {
         return;
       }
       setFormData(data);
+
+      const fetchedAgent = agents.find(
+        (agent) => agent.name === data.agent?.name
+      );
+      setSelectedAgent(fetchedAgent || null);
     };
 
     fetchListing();
@@ -81,6 +91,29 @@ export default function CreateListing() {
       setImageUploadError("You can only upload 6 images per listing");
       setUploading(false);
     }
+  };
+
+  const agents = [
+    {
+      name: "Akm Mike Bhuiyan",
+      email: "info@gllivings.com",
+      phone: "212-884-2211",
+      imageUrl: "/Mike.png", // Replace with actual image path
+    },
+    {
+      name: "Another Agent",
+      email: "another.agent@example.com",
+      phone: "123-456-7890",
+      imageUrl: "path/to/another-agent-image.jpg", // Replace with actual image path
+    },
+    // Add more agents as needed
+  ];
+
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+  const handleAgentChange = (e) => {
+    const selectedAgent = agents.find((agent) => agent.name === e.target.value);
+    setSelectedAgent(selectedAgent);
   };
 
   const storeImage = async (file) => {
@@ -175,6 +208,7 @@ export default function CreateListing() {
         body: JSON.stringify({
           ...formData,
           userRef: currentUser._id,
+          agent: selectedAgent,
         }),
       });
       const data = await res.json();
@@ -492,6 +526,24 @@ export default function CreateListing() {
               value={formData.cc_tax}
             />
             <p>CC+TAX</p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <label htmlFor="agent">Choose an Agent:</label>
+            <select
+              id="agent"
+              onChange={handleAgentChange}
+              value={selectedAgent?.name || ""}
+              className="border p-3 rounded-lg"
+            >
+              <option value="" disabled>
+                Select an Agent
+              </option>
+              {agents.map((agent) => (
+                <option key={agent.name} value={agent.name}>
+                  {agent.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">

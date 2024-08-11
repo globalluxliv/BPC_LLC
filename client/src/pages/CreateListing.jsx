@@ -70,6 +70,28 @@ export default function CreateListing() {
       setUploading(false);
     }
   };
+  const agents = [
+    {
+      name: "Akm Mike Bhuiyan",
+      email: "info@gllivings.com",
+      phone: "212-884-2211",
+      imageUrl: "/Mike.png", // Replace with actual image path
+    },
+    {
+      name: "Another Agent",
+      email: "another.agent@example.com",
+      phone: "123-456-7890",
+      imageUrl: "path/to/another-agent-image.jpg", // Replace with actual image path
+    },
+    // Add more agents as needed
+  ];
+
+  const handleAgentChange = (e) => {
+    const selectedAgent = agents.find((agent) => agent.name === e.target.value);
+    setSelectedAgent(selectedAgent);
+  };
+
+  const [selectedAgent, setSelectedAgent] = useState(agents[0]);
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -161,6 +183,7 @@ export default function CreateListing() {
         body: JSON.stringify({
           ...formData,
           userRef: currentUser._id,
+          agent: selectedAgent,
         }),
       });
       const data = await res.json();
@@ -477,6 +500,21 @@ export default function CreateListing() {
               value={formData.cc_tax}
             />
             <p>CC+TAX</p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <label htmlFor="agent">Choose an Agent:</label>
+            <select
+              id="agent"
+              onChange={handleAgentChange}
+              value={selectedAgent.name}
+              className="border p-3 rounded-lg"
+            >
+              {agents.map((agent) => (
+                <option key={agent.name} value={agent.name}>
+                  {agent.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

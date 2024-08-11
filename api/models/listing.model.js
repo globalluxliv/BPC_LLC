@@ -102,6 +102,12 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    agent: {
+    name: String,
+    email: String,
+    phone: String,
+    imageUrl: String,
+  },
   },
   { timestamps: true }
 );
