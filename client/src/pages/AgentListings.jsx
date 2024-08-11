@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 SwiperCore.use([Navigation]);
 
 export default function AgentListings() {
-  const { id } = useParams(); // Get the agent's ID from the URL
+  const { id } = useParams(); // Get the user ID from the URL
   const [rentListings, setRentListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [commercialSaleListings, setCommercialSaleListings] = useState([]);
@@ -22,20 +22,28 @@ export default function AgentListings() {
   const [rentedListings, setRentedListings] = useState([]);
 
   useEffect(() => {
-    const fetchListings = async () => {
+    console.log("Fetching agent listings for user ID:", id); // Log the user ID
+
+    const fetchAgentListings = async () => {
       try {
-        const res = await fetch(`/api/user/listings/${id}`);
+        const res = await fetch(`/api/listing/get?userId=${id}`); // Updated to use userId
+        console.log("API response status:", res.status); // Log the response status
+        if (!res.ok) {
+          throw new Error(`Failed to fetch listings: ${res.statusText}`);
+        }
         const data = await res.json();
-        filterListings(data);
+        console.log("Fetched data:", data); // Log the data fetched from the API
+        filterAndSetListings(data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching listings:", error);
       }
     };
 
-    fetchListings();
+    fetchAgentListings();
   }, [id]);
 
-  const filterListings = (listings) => {
+  const filterAndSetListings = (listings) => {
+    console.log("Filtering and setting listings..."); // Log to confirm this function is running
     const rent = [];
     const sale = [];
     const commercialSale = [];
@@ -46,6 +54,7 @@ export default function AgentListings() {
     const rented = [];
 
     listings.forEach((listing) => {
+      console.log("Listing:", listing); // Log each listing
       if (listing.tempOff) {
         temporarilyOff.push(listing);
       } else if (listing.sold) {
@@ -74,6 +83,7 @@ export default function AgentListings() {
       }
     });
 
+    console.log("Rent Listings:", rent); // Log to see if listings are categorized correctly
     setRentListings(rent);
     setSaleListings(sale);
     setCommercialSaleListings(commercialSale);
@@ -120,7 +130,7 @@ export default function AgentListings() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={`/search?agent=${id}&type=rent`}
+                to={`/search?userId=${id}&type=rent`}
               >
                 Show more places for rent
               </Link>
@@ -141,7 +151,7 @@ export default function AgentListings() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={`/search?agent=${id}&type=sale`}
+                to={`/search?userId=${id}&type=sale`}
               >
                 Show more places for sale
               </Link>
@@ -162,7 +172,7 @@ export default function AgentListings() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={`/search?agent=${id}&type=commercial_sale`}
+                to={`/search?userId=${id}&type=commercial_sale`}
               >
                 Show more commercial sales
               </Link>
@@ -183,7 +193,7 @@ export default function AgentListings() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={`/search?agent=${id}&type=commercial_lease`}
+                to={`/search?userId=${id}&type=commercial_lease`}
               >
                 Show more commercial leases
               </Link>
