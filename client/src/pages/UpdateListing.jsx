@@ -101,10 +101,10 @@ export default function CreateListing() {
       imageUrl: "/Mike.png", // Replace with actual image path
     },
     {
-      name: "Another Agent",
-      email: "another.agent@example.com",
-      phone: "123-456-7890",
-      imageUrl: "path/to/another-agent-image.jpg", // Replace with actual image path
+      name: "Lixi Ma (Queenie)",
+      email: "queenie@bpcresidential.com",
+      phone: "646.285.8277",
+      imageUrl: "/Queenie.png", // Replace with actual image path
     },
     // Add more agents as needed
   ];

@@ -66,23 +66,39 @@ export const getListing = async (req, res, next) => {
   }
 };
 
-// Get listings with filters
+// Get listings with filters and sorting
 export const getListings = async (req, res, next) => {
   try {
-    const { userId, type, offer } = req.query;
+    const { userId, type, offer, parking, furnished, sort, order } = req.query;
     const query = {};
 
+    // Add filters to query object
     if (userId) {
       query.userRef = userId;
     }
-    if (type) {
+    if (type && type !== 'all') {
       query.type = type;
     }
     if (offer) {
       query.offer = offer === 'true';
     }
+    if (parking) {
+      query.parking = parking === 'true';
+    }
+    if (furnished) {
+      query.furnished = furnished === 'true';
+    }
 
-    const listings = await Listing.find(query);
+    // Sorting logic
+    let sortOption = {};
+    if (sort) {
+      sortOption[sort] = order === 'asc' ? 1 : -1;
+    } else {
+      sortOption = { createdAt: -1 }; // default to newest first
+    }
+
+    // Fetch listings based on query and sorting options
+    const listings = await Listing.find(query).sort(sortOption);
     return res.status(200).json(listings);
   } catch (error) {
     next(error);
