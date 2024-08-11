@@ -98,13 +98,15 @@ export default function CreateListing() {
       name: "Akm Mike Bhuiyan",
       email: "info@gllivings.com",
       phone: "212-884-2211",
-      imageUrl: "/Mike.png", // Replace with actual image path
+      imageUrl: "/Mike.png",
+      userRef: "664a1c34413c39f3d7fa02d4", // Unique user ID for Mike
     },
     {
       name: "Lixi Ma (Queenie)",
       email: "queenie@bpcresidential.com",
       phone: "646.285.8277",
-      imageUrl: "/Queenie.png", // Replace with actual image path
+      imageUrl: "/Queenie.png",
+      userRef: "66a6a7c652f384512b70c15f", // Unique user ID for Queenie
     },
     // Add more agents as needed
   ];
@@ -207,8 +209,7 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
-          userRef: currentUser._id,
-          agent: selectedAgent,
+          userRef: selectedAgent ? selectedAgent.userRef : currentUser._id, // Use selected agent's userRef or fallback to current user
         }),
       });
       const data = await res.json();
@@ -222,6 +223,7 @@ export default function CreateListing() {
       setLoading(false);
     }
   };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
