@@ -527,7 +527,7 @@ export default function CreateListing() {
             />
             <p>CC+TAX</p>
           </div>
-          <div className="flex flex-col gap-4">
+          {/* <div className="flex flex-col gap-4">
             <label htmlFor="agent">Choose an Agent:</label>
             <select
               id="agent"
@@ -544,7 +544,7 @@ export default function CreateListing() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold">
