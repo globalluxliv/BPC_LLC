@@ -36,7 +36,7 @@ export default function App() {
           />
         </Route>
         <Route path="/agents" element={<Agents />} />
-        <Route path="/agent/:id" element={<AgentListings />} />
+        <Route path="/agent-listings/:id" element={<AgentListings />} />
       </Routes>
       {/* <Footer/> */}
     </BrowserRouter>

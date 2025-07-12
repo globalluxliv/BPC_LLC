@@ -14,6 +14,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
   const params = useParams();
   const [files, setFiles] = useState([]);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -44,6 +45,19 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Failed to load users", err);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -193,35 +207,62 @@ export default function CreateListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.imageUrls.length < 1)
+      return setError("You must upload at least one image");
+    if (+formData.regularPrice < +formData.discountPrice)
+      return setError("Discount price must be lower than regular price");
+
+    setLoading(true);
+    setError(false);
+
     try {
-      if (formData.imageUrls.length < 1)
-        return setError("You must upload at least one image");
-      if (+formData.regularPrice < +formData.discountPrice)
-        return setError("Discount price must be lower than regular price");
-      setLoading(true);
-      setError(false);
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
-        method: "POST",
+      const selectedUser = users.find((u) => u._id === formData.userRef);
+      const newAgent = {
+        name: selectedUser?.username || "N/A",
+        email: selectedUser?.email || "info@gllivings.com",
+        phone: selectedUser?.phone || "212-884-2211",
+        imageUrl:
+          selectedUser?.username === "Queenie"
+            ? "/Queenie.png"
+            : selectedUser?.username === "Mike"
+            ? "/Mike.png"
+            : "/placeholder-avatar.png",
+      };
+
+      const res = await fetch(`/api/listing/${params.listingId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${currentUser.token}`,
         },
         body: JSON.stringify({
           ...formData,
-          userRef: currentUser._id,
-          agent: selectedAgent,
+          userRef: formData.userRef || currentUser._id,
+          agent: newAgent,
         }),
       });
-      const data = await res.json();
-      setLoading(false);
-      if (data.success === false) {
-        setError(data.message);
+
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(text || "Unexpected server response");
       }
+
+      if (!res.ok || !data?._id) {
+        throw new Error(data.message || "Update failed");
+      }
+
       navigate(`/listing/${data._id}`);
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -383,6 +424,26 @@ export default function CreateListing() {
                   </div>
                 </>
               )}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Assigned Agent
+              </label>
+              <select
+                value={formData.userRef}
+                onChange={(e) =>
+                  setFormData({ ...formData, userRef: e.target.value })
+                }
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">-- Select an agent --</option>
+                {users.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.username}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="flex gap-2">
               <input
                 type="checkbox"

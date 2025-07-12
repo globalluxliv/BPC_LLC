@@ -13,6 +13,7 @@ export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -70,6 +71,19 @@ export default function CreateListing() {
       setUploading(false);
     }
   };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Failed to load users", err);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   const agents = [
     {
       name: "Akm Mike Bhuiyan",
@@ -182,8 +196,7 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
-          userRef: currentUser._id,
-          agent: selectedAgent,
+          userRef: formData.userRef,
         }),
       });
       const data = await res.json();
@@ -501,6 +514,26 @@ export default function CreateListing() {
             />
             <p>CC+TAX</p>
           </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Assign to Agent
+            </label>
+            <select
+              value={formData.userRef}
+              onChange={(e) =>
+                setFormData({ ...formData, userRef: e.target.value })
+              }
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            >
+              <option value="">-- Select an agent --</option>
+              {users.map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="flex flex-col gap-4">
             <label htmlFor="agent">Choose an Agent:</label>
             <select
