@@ -7,6 +7,7 @@ import listingRouter from "./routes/listing.route.js";
 import reviewRouter from "./routes/review.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from "url";
 dotenv.config();
 
 mongoose
@@ -18,7 +19,8 @@ mongoose
     console.log(err);
   });
 
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -34,10 +36,10 @@ app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
 app.use("/api/review", reviewRouter);
 
-app.use(express.static(path.join(__dirname, "client/dist")));
+app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/dist/index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
 });
 
 app.get("/", (req, res) => {
